@@ -4,7 +4,6 @@ import ArticleTable from './components/ArticleTable';
 function App() {
   return (
     <div>
-      <ArticleTable loading={true}></ArticleTable>
       <ArticleTable></ArticleTable>
     </div>
   );
