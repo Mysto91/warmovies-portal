@@ -18,13 +18,14 @@ export default class ArticleTable extends Component {
     }
 
     componentDidMount = () => {
-        this.setData();
+        this.getArticles();
     }
 
-    setData = (params = {}) => {
+    getArticles = (params = {}) => {
         const url = new URL(`${process.env.REACT_APP_API_HOST}/api/articles`);
 
         params.api_token = process.env.REACT_APP_API_TOKEN;
+        params.perPage = 9;
 
         url.search = new URLSearchParams(params).toString();
 
@@ -51,7 +52,7 @@ export default class ArticleTable extends Component {
     };
 
     handlePaginationChange = (e, page) => {
-        this.setData({ page: page })
+        this.getArticles({ page: page })
     }
 
     render() {
@@ -59,30 +60,32 @@ export default class ArticleTable extends Component {
 
         return (
             <Grid container>
-                <Grid item xs={12}>
-                    <Grid container>
+                <Grid item xs={12} height="900px" mt={10}>
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {(!isLoaded ? Array.from(new Array(10)) : articles).map((article, index) => (
-                            <Grid key={index} item xs={3}>
-                                <Box key={index} sx={{ width: 210 }}>
+                            <Grid key={index} item xs={4}>
+                                <Box key={index} sx={{ mx: "auto", width: 300 }} >
                                     {article ? (
-                                        <img
-                                            style={{ width: 210, height: 118 }}
-                                            alt={article.title}
-                                            src="https://fakeimg.pl/300"
-                                        />
+                                        <Box display={'flex'} justifyContent={'center'}>
+                                            <img
+                                                style={{ width: 210, height: 118 }}
+                                                alt={article.title}
+                                                src="/images/spool.jpg"
+                                            />
+                                        </Box>
                                     ) : (
                                         <Skeleton variant="rectangular" width={210} height={118} />
                                     )}
 
                                     {article ? (
                                         <Box sx={{ pr: 2 }}>
-                                            <Typography gutterBottom variant="body2">
+                                            <Typography gutterBottom variant="body2" display={'flex'} justifyContent={'center'}>
                                                 {article.title}
                                             </Typography>
-                                            <Typography display="block" variant="caption" color="text.secondary">
+                                            <Typography display="block" variant="caption" color="text.secondary" justifyContent={'center'}>
                                                 {article.description}
                                             </Typography>
-                                            <Typography variant="caption" color="text.secondary">
+                                            <Typography variant="caption" color="text.secondary" display={'flex'} justifyContent={'center'}>
                                                 <Rating
                                                     name="simple-controlled"
                                                     value={Number(article.rate)}
@@ -90,7 +93,7 @@ export default class ArticleTable extends Component {
                                                     readOnly
                                                 />
                                             </Typography>
-                                            <Typography variant="caption" color="text.secondary">
+                                            <Typography variant="caption" color="text.secondary" display={'flex'} justifyContent={'center'}>
                                                 {`Date de sortie ${article.releaseDate ?? 'N/A'}`}
                                             </Typography>
                                         </Box>
@@ -112,7 +115,7 @@ export default class ArticleTable extends Component {
                         sx={{ mx: "auto", width: 200 }}
                     ></Pagination>
                 </Grid>
-            </Grid>
+            </Grid >
         )
     }
 }
