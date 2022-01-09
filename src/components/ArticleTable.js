@@ -3,7 +3,16 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
-import { Pagination, Rating } from '@mui/material';
+import { Fade, Pagination, Rating } from '@mui/material';
+import { createTheme } from '@mui/system';
+
+const theme = createTheme({
+    MuiPaginationRoot: {
+        MuiPaginationUl: {
+            justifyContent: 'center',
+        },
+    },
+});
 
 export default class ArticleTable extends Component {
 
@@ -13,6 +22,7 @@ export default class ArticleTable extends Component {
             articles: [],
             meta: [],
             isLoaded: false,
+            currentPage: 1,
             error: null
         };
     }
@@ -36,6 +46,7 @@ export default class ArticleTable extends Component {
                     this.setState({
                         isLoaded: true,
                         articles: result.data,
+                        currentPage: result.meta.current_page,
                         meta: result.meta,
                     });
                 },
@@ -52,7 +63,12 @@ export default class ArticleTable extends Component {
     };
 
     handlePaginationChange = (e, page) => {
-        this.getArticles({ page: page })
+        if (this.state.currentPage != page) {
+            this.setState({
+                isLoaded: false
+            });
+            this.getArticles({ page: page })
+        }
     }
 
     render() {
@@ -62,41 +78,52 @@ export default class ArticleTable extends Component {
             <Grid container>
                 <Grid item xs={12} height="900px" mt={10}>
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        {(!isLoaded ? Array.from(new Array(10)) : articles).map((article, index) => (
+                        {(!isLoaded ? Array.from(new Array(9)) : articles).map((article, index) => (
                             <Grid key={index} item xs={4}>
                                 <Box key={index} sx={{ mx: "auto", width: 300 }} >
                                     {article ? (
-                                        <Box display={'flex'} justifyContent={'center'}>
-                                            <img
-                                                style={{ width: 210, height: 118 }}
-                                                alt={article.title}
-                                                src="/images/spool.jpg"
-                                            />
-                                        </Box>
+                                        <Fade
+                                            in={isLoaded}
+                                            timeout={1000}
+                                        >
+                                            <Box display={'flex'} justifyContent={'center'}>
+                                                <img
+                                                    style={{ height: 118 }}
+                                                    alt={article.title}
+                                                    src="/images/spool.jpg"
+                                                />
+                                            </Box>
+                                        </Fade>
                                     ) : (
                                         <Skeleton variant="rectangular" width={210} height={118} />
                                     )}
 
                                     {article ? (
-                                        <Box sx={{ pr: 2 }}>
-                                            <Typography gutterBottom variant="body2" display={'flex'} justifyContent={'center'}>
-                                                {article.title}
-                                            </Typography>
-                                            <Typography display="block" variant="caption" color="text.secondary" justifyContent={'center'}>
-                                                {article.description}
-                                            </Typography>
-                                            <Typography variant="caption" color="text.secondary" display={'flex'} justifyContent={'center'}>
-                                                <Rating
-                                                    name="simple-controlled"
-                                                    value={Number(article.rate)}
-                                                    precision={0.1}
-                                                    readOnly
-                                                />
-                                            </Typography>
-                                            <Typography variant="caption" color="text.secondary" display={'flex'} justifyContent={'center'}>
-                                                {`Date de sortie ${article.releaseDate ?? 'N/A'}`}
-                                            </Typography>
-                                        </Box>
+                                        <Fade
+                                            in={isLoaded}
+                                            timeout={1000}
+                                        >
+                                            <Box sx={{ pr: 2 }}>
+                                                <Typography gutterBottom variant="body2" display={'flex'} justifyContent={'center'}>
+                                                    {article.title}
+                                                </Typography>
+                                                <Typography display="block" variant="caption" color="text.secondary" justifyContent={'center'}>
+                                                    {article.description}
+                                                </Typography>
+                                                <Typography variant="caption" color="text.secondary" display={'flex'} justifyContent={'center'}>
+                                                    <Rating
+                                                        name="simple-controlled"
+                                                        value={Number(article.rate)}
+                                                        precision={0.5}
+                                                        readOnly
+                                                        sx={{ color: 'black' }}
+                                                    />
+                                                </Typography>
+                                                <Typography variant="caption" color="text.secondary" display={'flex'} justifyContent={'center'}>
+                                                    {`Date de sortie : ${article.releaseDate ?? 'N/A'}`}
+                                                </Typography>
+                                            </Box>
+                                        </Fade>
                                     ) : (
                                         <Box sx={{ pt: 0.5 }}>
                                             <Skeleton />
@@ -112,7 +139,12 @@ export default class ArticleTable extends Component {
                     <Pagination
                         count={meta ? meta.last_page : 0}
                         onChange={this.handlePaginationChange}
-                        sx={{ mx: "auto", width: 200 }}
+                        sx={{
+                            mx: "auto",
+                            width: 500
+                        }}
+                        color="primary"
+                        size="large"
                     ></Pagination>
                 </Grid>
             </Grid >
