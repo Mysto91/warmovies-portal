@@ -4,17 +4,28 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import { Fade, Pagination, Rating } from '@mui/material';
-import { createTheme } from '@mui/system';
+import { withStyles } from '@mui/styles';
 
-const theme = createTheme({
-    MuiPaginationRoot: {
-        MuiPaginationUl: {
-            justifyContent: 'center',
-        },
+const styles = {
+    root: {
+        height: "100%",
     },
-});
+    pagination: {
+        '& ul': {
+            marginLeft: "auto",
+            marginRight: "auto",
+            width: "75%",
+            '& button': {
+                background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                '&[aria-current=true]': {
+                    background: 'linear-gradient(45deg, #2980B9 30%, #6DD5FA 90%)',
+                }
+            }
+        }
+    }
+};
 
-export default class ArticleTable extends Component {
+class ArticleTable extends Component {
 
     constructor(props) {
         super(props);
@@ -73,9 +84,10 @@ export default class ArticleTable extends Component {
 
     render() {
         const { isLoaded, articles, meta } = this.state;
+        const { classes } = this.props;
 
         return (
-            <Grid container>
+            <Grid className={classes.root} container>
                 <Grid item xs={12} height="900px" mt={10}>
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {(!isLoaded ? Array.from(new Array(9)) : articles).map((article, index) => (
@@ -137,6 +149,7 @@ export default class ArticleTable extends Component {
                 </Grid>
                 <Grid item xs={12}>
                     <Pagination
+                        className={classes.pagination}
                         count={meta ? meta.last_page : 0}
                         onChange={this.handlePaginationChange}
                         sx={{
@@ -151,3 +164,5 @@ export default class ArticleTable extends Component {
         )
     }
 }
+
+export default withStyles(styles)(ArticleTable);
