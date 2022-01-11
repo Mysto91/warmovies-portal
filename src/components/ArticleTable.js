@@ -18,9 +18,14 @@ const styles = {
             '& button': {
                 background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
                 '&[aria-current=true]': {
-                    background: 'linear-gradient(45deg, #2980B9 30%, #6DD5FA 90%)',
+                    background: 'linear-gradient(45deg, #0F2027 30%, #2C5364 90%)',
                 }
             }
+        }
+    },
+    rating: {
+        '& svg': {
+            color: '#FE6B8B'
         }
     }
 };
@@ -74,7 +79,7 @@ class ArticleTable extends Component {
     };
 
     handlePaginationChange = (e, page) => {
-        if (this.state.currentPage != page) {
+        if (this.state.currentPage !== page) {
             this.setState({
                 isLoaded: false
             });
@@ -124,6 +129,7 @@ class ArticleTable extends Component {
                                                 </Typography>
                                                 <Typography variant="caption" color="text.secondary" display={'flex'} justifyContent={'center'}>
                                                     <Rating
+                                                        className={classes.rating}
                                                         name="simple-controlled"
                                                         value={Number(article.rate)}
                                                         precision={0.5}
