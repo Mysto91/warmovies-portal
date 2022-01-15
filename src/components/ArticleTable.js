@@ -93,7 +93,16 @@ class ArticleTable extends Component {
 
         return (
             <Grid className={classes.root} container>
-                <Grid item xs={12} height="900px" mt={10}>
+                <Grid
+                    item xs={12}
+                    height={{
+                        lg: 900,
+                        md: 900,
+                        sm: 1450,
+                        xs: 2500
+                    }}
+                    mt={10}
+                >
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {(!isLoaded ? Array.from(new Array(9)) : articles).map((article, index) => (
                             <Grid key={index} item xs={4}>
@@ -112,7 +121,12 @@ class ArticleTable extends Component {
                                             </Box>
                                         </Fade>
                                     ) : (
-                                        <Skeleton variant="rectangular" width={210} height={118} />
+                                        <Fade
+                                            in={!isLoaded}
+                                            timeout={500}
+                                        >
+                                            <Skeleton variant="rectangular" width={300} height={200} />
+                                        </Fade>
                                     )}
 
                                     {article ? (
@@ -160,7 +174,9 @@ class ArticleTable extends Component {
                         onChange={this.handlePaginationChange}
                         sx={{
                             mx: "auto",
-                            width: 500
+                            width: 500,
+                            paddingTop: 10,
+                            paddingBottom: 10,
                         }}
                         color="primary"
                         size="large"
