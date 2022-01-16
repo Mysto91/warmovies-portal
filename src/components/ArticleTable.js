@@ -9,6 +9,7 @@ import { withStyles } from '@mui/styles';
 const styles = {
     root: {
         height: "100%",
+        background: '#34495e'
     },
     pagination: {
         '& ul': {
@@ -116,7 +117,7 @@ class ArticleTable extends Component {
                                                 <img
                                                     style={{ height: 118 }}
                                                     alt={article.title}
-                                                    src="/images/spool.jpg"
+                                                    src="/images/spool.png"
                                                 />
                                             </Box>
                                         </Fade>
