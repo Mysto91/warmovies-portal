@@ -135,7 +135,7 @@ class ArticleTable extends Component {
                                             in={isLoaded}
                                             timeout={1000}
                                         >
-                                            <Box sx={{ pr: 2 }}>
+                                            <Box sx={{ pr: 0 }}>
                                                 <Typography gutterBottom variant="body2" display={'flex'} justifyContent={'center'}>
                                                     {article.title}
                                                 </Typography>
