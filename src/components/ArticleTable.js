@@ -116,8 +116,8 @@ class ArticleTable extends Component {
                                             <Box display={'flex'} justifyContent={'center'}>
                                                 <img
                                                     style={{ height: 118 }}
-                                                    alt={article.title}
-                                                    src="/images/spool.png"
+                                                    alt={`${article.title} image`}
+                                                    src={article.imageUrl ?? "/images/spool.png"}
                                                 />
                                             </Box>
                                         </Fade>
