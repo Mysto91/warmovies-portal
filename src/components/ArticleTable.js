@@ -116,7 +116,7 @@ class ArticleTable extends Component {
                                             <Box display={'flex'} justifyContent={'center'}>
                                                 <img
                                                     style={{ height: 118 }}
-                                                    alt={`${article.title} image`}
+                                                    alt={`${article.title}`}
                                                     src={article.imageUrl ?? "/images/spool.png"}
                                                 />
                                             </Box>
@@ -139,7 +139,7 @@ class ArticleTable extends Component {
                                                 <Typography gutterBottom variant="body2" display={'flex'} justifyContent={'center'}>
                                                     {article.title}
                                                 </Typography>
-                                                <Typography display="block" variant="caption" color="text.secondary" justifyContent={'center'}>
+                                                <Typography display="block" variant="caption" color="text.secondary" justifyContent={'center'} textAlign={'center'}>
                                                     {article.description}
                                                 </Typography>
                                                 <Typography variant="caption" color="text.secondary" display={'flex'} justifyContent={'center'}>
